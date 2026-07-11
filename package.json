@@ -1,0 +1,23 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Recipe Application",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PrinceLemayian/forkify.git"
+  },
+  "author": "Lemayian Prince",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PrinceLemayian/forkify/issues"
+  },
+  "homepage": "https://github.com/PrinceLemayian/forkify#readme",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.16.4",
+    "parcel": "^2.16.4"
+  }
+}
