@@ -28,11 +28,15 @@ const renderSpinner = function (parentEl) {
 
 const showRecipe = async function () {
   try {
+    const id = window.location.hash.slice(1);
+
+    if (!id) return;
+
     // Loading recipe
     renderSpinner(recipeContainer);
 
     const res = await fetch(
-      'https://forkify-api.jonas.io/api/v2/recipes/664c8f193e7aa067e94e8297',
+      `https://forkify-api.jonas.io/api/v2/recipes/${id}`,
     );
     const data = await res.json();
 
@@ -49,8 +53,6 @@ const showRecipe = async function () {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
-
-    console.log(recipe);
 
     // Rendering recipe
     const markup = `
@@ -121,17 +123,6 @@ const showRecipe = async function () {
                         `;
                       })
                       .join('')}
-                    
-                    <li class="recipe__ingredient">
-                    <svg class="recipe__icon">
-                        <use href="${icons}#icon-check"></use>
-                    </svg>
-                    <div class="recipe__quantity">0.5</div>
-                    <div class="recipe__description">
-                        <span class="recipe__unit">cup</span>
-                        ricotta cheese
-                    </div>
-                    </li>
                 </ul>
                 </div>
 
@@ -161,4 +152,5 @@ const showRecipe = async function () {
     alert(err);
   }
 };
-showRecipe();
+
+['hashchange', 'load'].forEach(ev => window.addEventListener(ev, showRecipe));
