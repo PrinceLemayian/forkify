@@ -54,8 +54,6 @@ const showRecipe = async function () {
       ingredients: recipe.ingredients,
     };
 
-    console.log(recipe);
-
     // Rendering recipe
     const markup = `
         <figure class="recipe__fig">
