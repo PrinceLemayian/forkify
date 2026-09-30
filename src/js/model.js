@@ -60,12 +60,20 @@ export const getSearchResultsPage = function (page = state.search.page) {
 };
 
 export const updateServings = function (newServings) {
+  // Refuse to scale to a non-positive or non-numeric target.
+  if (!Number.isFinite(newServings) || newServings < 1) return;
+
+  // The multiply below divides by the current servings. If it is 0 or
+  // missing, every quantity would become Infinity/NaN, so bail out.
+  const current = state.recipe.servings;
+  if (!Number.isFinite(current) || current < 1) return;
+
   state.recipe.ingredients.forEach(ing => {
     // Preserve ingredients with no quantity (e.g. "salt to taste").
     // Without this guard, null coerces to 0 during arithmetic and the
     // semantic "no quantity" is silently lost after the first scale.
     if (ing.quantity == null) return;
-    ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
+    ing.quantity = (ing.quantity * newServings) / current;
   });
 
   state.recipe.servings = newServings;
