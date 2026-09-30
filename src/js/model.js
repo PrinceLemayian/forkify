@@ -61,6 +61,10 @@ export const getSearchResultsPage = function (page = state.search.page) {
 
 export const updateServings = function (newServings) {
   state.recipe.ingredients.forEach(ing => {
+    // Preserve ingredients with no quantity (e.g. "salt to taste").
+    // Without this guard, null coerces to 0 during arithmetic and the
+    // semantic "no quantity" is silently lost after the first scale.
+    if (ing.quantity == null) return;
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
   });
 
