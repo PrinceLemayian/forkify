@@ -58,3 +58,20 @@ export const getSearchResultsPage = function (page = state.search.page) {
 
   return state.search.results.slice(start, end);
 };
+
+export const updateServings = function (newServings) {
+  // Returns whether the update was applied, so the caller can skip re-render.
+  if (!Number.isFinite(newServings) || newServings < 1) return false;
+
+  const current = state.recipe.servings;
+  if (!Number.isFinite(current) || current < 1) return false;
+
+  state.recipe.ingredients.forEach(ing => {
+    // Preserve "no quantity" ingredients; null would decay to 0 here.
+    if (ing.quantity == null) return;
+    ing.quantity = (ing.quantity * newServings) / current;
+  });
+
+  state.recipe.servings = newServings;
+  return true;
+};
