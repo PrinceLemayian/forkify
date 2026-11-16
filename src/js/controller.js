@@ -14,6 +14,16 @@ import 'regenerator-runtime/runtime';
 //   module.hot.accept();
 // }
 
+/**
+ * Application controller — wires the model and views together.
+ * @module controller
+ */
+
+/**
+ * Loads and renders the recipe matching the current URL hash.
+ * @async
+ * @returns {Promise<void>}
+ */
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
@@ -37,6 +47,11 @@ const controlRecipes = async function () {
   }
 };
 
+/**
+ * Loads and renders search results based on the user's query.
+ * @async
+ * @returns {Promise<void>}
+ */
 const controlSearchResults = async function () {
   try {
     // 1) Get search query
@@ -57,6 +72,11 @@ const controlSearchResults = async function () {
   }
 };
 
+/**
+ * Renders search results and pagination buttons for the requested page.
+ * @param {number} goToPage - The page number to render
+ * @returns {void}
+ */
 const controlPagination = function (goToPage) {
   // 1) Render new results
   resultsView.render(model.getSearchResultsPage(goToPage));
@@ -65,6 +85,12 @@ const controlPagination = function (goToPage) {
   paginationView.render(model.state.search);
 };
 
+/**
+ * Updates the recipe servings and re-renders the recipe view.
+ * @param {number} newServings - The desired number of servings
+ * @returns {void}
+ */
+
 const controlServings = function (newServings) {
   // Skip the re-render if the model refused the update.
   if (!model.updateServings(newServings)) return;
@@ -72,6 +98,11 @@ const controlServings = function (newServings) {
   recipeView.update(model.state.recipe);
 };
 
+/**
+ * Adds or removes the current recipe from bookmarks.
+ * Updates the recipe and bookmarks views.
+ * @returns {void}
+ */
 const controlAddBookmark = function () {
   // Add/Remove bookmark
   if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
@@ -84,10 +115,20 @@ const controlAddBookmark = function () {
   bookmarksView.render(model.state.bookmarks);
 };
 
+/**
+ * Renders the current bookmarks.
+ * @returns {void}
+ */
 const controlBookmarks = function () {
   bookmarksView.render(model.state.bookmarks);
 };
 
+/**
+ * Uploads a new recipe and updates the relevant views.
+ * @async
+ * @param {object} newRecipe - The new recipe data
+ * @returns {Promise<void>}
+ */
 const controlAddRecipe = async function (newRecipe) {
   try {
     // Show loading spinner
@@ -118,6 +159,11 @@ const controlAddRecipe = async function (newRecipe) {
   }
 };
 
+/**
+ * Wires all event handlers between views and controller functions.
+ * @description Called once on startup to connect user interactions
+ * to their corresponding controller handlers.
+ */
 const init = function () {
   bookmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
