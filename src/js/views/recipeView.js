@@ -2,15 +2,38 @@ import View from './View.js';
 import icons from 'url:../../img/icons.svg';
 import Fraction from 'fraction.js';
 
+/**
+ * @typedef {Object} RecipeIngredient
+ * @property {number|null} quantity
+ * @property {string} unit
+ * @property {string} description
+ */
+
+/**
+ * Handles rendering and user interactions for the recipe view
+ * @extends {View}
+ */
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
   _errorMessage = 'We could not find that recipe. Please try another one!';
   _message = '';
 
+  /**
+   * Adds event listeners for rendering the recipe
+   * @param {Function} handler - Callback executed on page load or URL hash change
+   * @listens window:load
+   * @listens window:hashchange
+   * @returns {void}
+   */
   addHandlerRender(handler) {
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
   }
 
+  /**
+   * Adds event listeners for updating recipe servings
+   * @param {Function} handler - Callback receiving the new servings count
+   * @returns {void}
+   */
   addHandlerUpdateServings(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--update-servings');
@@ -22,6 +45,11 @@ class RecipeView extends View {
     });
   }
 
+  /**
+   * Adds a click handler for bookmarking the current recipe
+   * @param {Function} handler - Callback executed when bookmark button is clicked
+   * @returns {void}
+   */
   addHandlerAddBookmark(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--bookmark');
@@ -30,6 +58,12 @@ class RecipeView extends View {
     });
   }
 
+  /**
+   * Generates the HTML markup for the view.
+   * @protected
+   * @override
+   * @returns {string} HTML markup for the recipe
+   */
   _generateMarkup() {
     return `
         <figure class="recipe__fig">
@@ -111,6 +145,11 @@ class RecipeView extends View {
         `;
   }
 
+  /**
+   * Generates HTML markup for a single recipe ingredient
+   * @param {RecipeIngredient} ing - Ingredient to generate markup for
+   * @returns {string} HTML markup for the ingredient
+   */
   _generateMarkupIngredient(ing) {
     return `
                             <li class="recipe__ingredient">
