@@ -1,9 +1,19 @@
 import View from './View.js';
 import icons from 'url:../../img/icons.svg';
 
+/**
+ * Handles pagination controls and generates pagination markup
+ * @extends {View}
+ */
 class PaginationView extends View {
   _parentElement = document.querySelector('.pagination');
 
+  /**
+   * Attaches a click handler to the pagination container.
+   * @param {(page: number) => void} handler - Callback receiving the page number to navigate to.
+   * @listens Element:click
+   * @returns {void}
+   */
   addHandlerClick(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--inline');
@@ -14,6 +24,14 @@ class PaginationView extends View {
     });
   }
 
+  /**
+   * Generates pagination button markup based on the current page and total pages.
+   * Renders a next button on page 1, a prev button on the last page,
+   * both buttons on middle pages, and nothing when there is only one page.
+   * @override
+   * @protected
+   * @returns {string} HTML markup for the pagination buttons, or an empty string
+   */
   _generateMarkup() {
     const curPage = this._data.page;
     const numPages = Math.ceil(
