@@ -2,7 +2,7 @@
 
 A recipe search and bookmarking app built with vanilla JavaScript. Search for recipes, adjust servings, bookmark favourites, and upload your own recipes to the Forkify API.
 
-> **Live demo:** not deployed yet.
+> **Live demo:** [Forkify](https://forkify-lemayian.vercel.app/)
 
 ![Forkify search and recipe view](./src/img/screenshot.jpg)
 
