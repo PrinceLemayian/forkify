@@ -1,0 +1,14 @@
+{
+  "plugins": [
+    {
+      "name": "preset-default",
+      "params": {
+        "overrides": {
+          "cleanupIds": false,
+          "removeUselessDefs": false,
+          "removeHiddenElems": false
+        }
+      }
+    }
+  ]
+}
